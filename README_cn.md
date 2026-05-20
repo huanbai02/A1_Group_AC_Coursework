@@ -4,7 +4,7 @@
 
 本仓库用于 DTS406TC Natural Language Processing Coursework 1。主题是文档主题分类（Document Topic Classification）。项目目标是搭建一个可复现的 Python 流水线，用于数据集收集、文本预处理、主题分类模型训练、预测评估以及生成报告可用的结果材料。
 
-当前阶段：初始框架搭建。仓库已经包含项目目录、数据检查工具、预处理工具、评估工具，以及四个算法的统一脚本入口。四个模型的正式训练逻辑尚未实现。
+当前阶段：数据准备与算法集成。`dataset_1` 已整理为均衡的 Yahoo Answers Topics 子集，`dataset_2` 用于 news topic classification。只有在真实模型脚本运行后，才会生成模型 prediction 和 metrics 文件。
 
 ## 2. 作业要求概述
 
@@ -26,26 +26,26 @@
 
 ## 3. 当前项目状态
 
-本初始化阶段已完成：
+已完成：
 
 - 标准项目目录结构；
 - 英文 README 和中文 README；
 - 原始数据集交付格式检查脚本；
 - 通用数据读取、随机种子、文本处理和指标工具；
 - 基础预处理、数据划分和统计脚本；
+- `dataset_1` 的 raw 和 processed CSV 文件；
 - 四个模型脚本的统一接口模板；
 - 预测评估、指标汇总和结果绘图脚本；
 - 轻量级 requirements 文件。
 
-尚未实现：
+当前数据集：
 
-- Naive Bayes 的实际训练逻辑；
-- SVM 的实际训练逻辑；
-- Word2Vec 分类器的实际训练逻辑；
-- BERT 分类器训练或特征提取逻辑；
-- 真实数据集和真实实验结果。
+| Dataset | Source / Name | Classification scenario | Raw size | Labels | Split |
+| --- | --- | --- | ---: | ---: | --- |
+| `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
+| `dataset_2` | News topic dataset | News topic classification | 后续单独维护 | 后续单独维护 | 后续单独维护 |
 
-当前项目骨架不会生成虚假数据集、虚假预测或虚假 metrics。
+`dataset_1` 和 `dataset_2` 代表不同分类场景。项目不会生成虚假数据集、虚假 prediction 或虚假 metrics。本次 Yahoo Answers 数据整理任务没有生成新的模型 prediction 文件或模型 metrics 文件。
 
 ## 4. 推荐目录结构
 
@@ -146,6 +146,8 @@ data/processed/dataset_1/
 ├── train.csv
 ├── val.csv
 ├── test.csv
+├── dataset_card.md
+├── preprocessing_log.md
 ├── statistics.csv
 ├── label_distribution.csv
 └── word_frequency.csv
@@ -161,7 +163,11 @@ id,text,label
 
 ## 8. 预处理、划分和统计流程
 
-清洗原始数据集：
+`dataset_1` 来源于 Yahoo Answers Topics。最终项目只保留
+`data/raw/dataset_1/` 和 `data/processed/dataset_1/` 下的标准化文件。
+本地下载源文件目录不纳入项目提交。不需要 Kaggle API，`kaggle` 也不是项目依赖。
+
+对于通用数据集，清洗原始数据集：
 
 ```bash
 python algorithms/preprocessing/preprocess_dataset.py \
@@ -182,13 +188,23 @@ python algorithms/preprocessing/split_dataset.py \
   --test_ratio 0.15
 ```
 
-对一个处理后的 CSV 生成统计信息，通常使用 `train.csv`：
+对完整 processed dataset 生成统计信息。这是正式报告统计的推荐模式，因为脚本会先合并 `train.csv`、`val.csv` 和 `test.csv`，再写出 `statistics.csv`、`label_distribution.csv` 和 `word_frequency.csv`：
+
+```bash
+python algorithms/preprocessing/dataset_statistics.py \
+  --input_dir data/processed/dataset_1 \
+  --dataset_name dataset_1 \
+  --output_dir data/processed/dataset_1
+```
+
+如果需要 train-only 或其他单个 split 的统计信息，使用单文件 `--input_path` 模式，并保存到名称明确的输出目录：
 
 ```bash
 python algorithms/preprocessing/dataset_statistics.py \
   --input_path data/processed/dataset_1/train.csv \
   --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1
+  --output_dir data/processed/dataset_1/train_statistics \
+  --split_name train
 ```
 
 统计脚本会输出：
@@ -196,6 +212,8 @@ python algorithms/preprocessing/dataset_statistics.py \
 - `statistics.csv`；
 - `label_distribution.csv`；
 - `word_frequency.csv`。
+
+对于已准备好的数据集，`data/processed/dataset_x/` 下的标准统计文件基于完整 processed dataset（`train.csv + val.csv + test.csv`）生成。正式报告表格应使用这些 full processed dataset statistics，而不是 train-only statistics。
 
 ## 9. 算法脚本接口
 
@@ -211,14 +229,14 @@ python algorithms/traditional/train_naive_bayes.py \
   --seed 42
 ```
 
-当前可用的接口模板脚本：
+当前可用的模型脚本：
 
 - `algorithms/traditional/train_naive_bayes.py`
 - `algorithms/traditional/train_svm.py`
 - `algorithms/deep_learning/train_word2vec_classifier.py`
 - `algorithms/deep_learning/train_bert_classifier.py`
 
-这些脚本只用于验证统一接口，并会在路径检查后抛出 `NotImplementedError`。它们不会训练模型，也不会保存虚假输出。
+所有模型脚本都必须保持该统一接口。仍为模板的脚本应清晰报错，而不是保存虚假输出；已经实现的脚本必须按标准结果路径保存真实 prediction 和 metrics CSV 文件。
 
 ## 10. 结果 CSV 格式
 
@@ -245,6 +263,8 @@ data/results/metrics/{dataset_name}_{model_name}_metrics.csv
 ```csv
 dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
 ```
+
+当前结果状态：本次数据整理任务没有创建任何新的模型 prediction CSV 文件或模型 metrics CSV 文件。
 
 ## 11. 评估和汇总流程
 
@@ -278,16 +298,16 @@ python algorithms/evaluation/plot_results.py \
 
 绘图脚本只会基于已经存在的真实 summary CSV 生成图表。
 
-## 12. 当前尚未实现的内容
+## 12. 当前已实现的内容
 
-当前模型脚本只是模板：
+以下模型脚本已完整实现：
 
+- SVM：基于 TF-IDF + LinearSVC 的分类模型已实现（由组员 A 实现）；
+- BERT-based classifier：基于 DistilBERT 序列分类微调的模型已实现（由组员 B 实现）。
+
+其余模型脚本仍为模板：
 - Naive Bayes：interface only，由组员 A 后续实现；
-- SVM：interface only，由组员 A 后续实现；
-- Word2Vec-based classifier：interface only，由组员 B 后续实现；
-- BERT-based classifier：interface only，由组员 B 后续实现。
-
-初始化阶段有意不将 `torch`、`transformers` 或 `gensim` 作为必需依赖。
+- Word2Vec-based classifier：interface only，由组员 B 后续实现。
 
 ## 13. 后续组员如何接入算法实现
 
@@ -304,13 +324,15 @@ python algorithms/evaluation/plot_results.py \
 
 ## 14. 依赖
 
-初始化阶段的轻量依赖列在 `requirements.txt`：
+项目依赖列在 `requirements.txt`：
 
 ```text
 pandas
 numpy
 scikit-learn
 matplotlib
+torch
+transformers
 ```
 
 安装命令：
@@ -318,3 +340,5 @@ matplotlib
 ```bash
 pip install -r requirements.txt
 ```
+
+

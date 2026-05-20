@@ -1,6 +1,7 @@
 # Python cache and bytecode
 __pycache__/
 *.py[cod]
+*.pyc
 *$py.class
 
 # Virtual environments and local environments
@@ -42,6 +43,7 @@ Thumbs.db
 
 # Coursework generated outputs that should be reproducible
 # Keep .gitkeep files so the required empty directory structure is preserved.
+data/source/
 data/results/predictions/*
 !data/results/predictions/.gitkeep
 data/results/metrics/*

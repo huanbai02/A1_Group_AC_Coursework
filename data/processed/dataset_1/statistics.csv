@@ -1,0 +1,2 @@
+dataset,split,text_version,num_instances,num_labels,vocabulary_size,avg_doc_length,min_doc_length,max_doc_length
+dataset_1,full,text,6000,10,34981,95.1455,3,900
