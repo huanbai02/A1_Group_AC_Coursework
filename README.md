@@ -278,16 +278,16 @@ python algorithms/evaluation/plot_results.py \
 
 The plotting script only generates figures from an existing real summary CSV.
 
-## 12. What Has Not Been Implemented Yet
+## 12. What Has Been Implemented
 
-The current model scripts are templates only:
+The following model scripts are fully implemented:
 
+- SVM: TF-IDF + LinearSVC classification implemented (Group Member A);
+- BERT-based classifier: DistilBERT sequence classification fine-tuning implemented (Group Member B).
+
+The remaining models are templates only:
 - Naive Bayes: interface only, to be implemented by group member A;
-- SVM: interface only, to be implemented by group member A;
-- Word2Vec-based classifier: interface only, to be implemented by group member B;
-- BERT-based classifier: interface only, to be implemented by group member B.
-
-The initialization stage intentionally does not import `torch`, `transformers`, or `gensim` as required dependencies.
+- Word2Vec-based classifier: interface only, to be implemented by group member B.
 
 ## 13. How Group Members Should Add Algorithm Implementations Later
 
@@ -304,13 +304,15 @@ When implementing a model, group members should:
 
 ## 14. Dependencies
 
-Initial lightweight dependencies are listed in `requirements.txt`:
+Dependencies are listed in `requirements.txt`:
 
 ```text
 pandas
 numpy
 scikit-learn
 matplotlib
+torch
+transformers
 ```
 
 Install them with:

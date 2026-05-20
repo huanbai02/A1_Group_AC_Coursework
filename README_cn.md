@@ -278,16 +278,16 @@ python algorithms/evaluation/plot_results.py \
 
 绘图脚本只会基于已经存在的真实 summary CSV 生成图表。
 
-## 12. 当前尚未实现的内容
+## 12. 当前已实现的内容
 
-当前模型脚本只是模板：
+以下模型脚本已完整实现：
 
+- SVM：基于 TF-IDF + LinearSVC 的分类模型已实现（由组员 A 实现）；
+- BERT-based classifier：基于 DistilBERT 序列分类微调的模型已实现（由组员 B 实现）。
+
+其余模型脚本仍为模板：
 - Naive Bayes：interface only，由组员 A 后续实现；
-- SVM：interface only，由组员 A 后续实现；
-- Word2Vec-based classifier：interface only，由组员 B 后续实现；
-- BERT-based classifier：interface only，由组员 B 后续实现。
-
-初始化阶段有意不将 `torch`、`transformers` 或 `gensim` 作为必需依赖。
+- Word2Vec-based classifier：interface only，由组员 B 后续实现。
 
 ## 13. 后续组员如何接入算法实现
 
@@ -304,13 +304,15 @@ python algorithms/evaluation/plot_results.py \
 
 ## 14. 依赖
 
-初始化阶段的轻量依赖列在 `requirements.txt`：
+项目依赖列在 `requirements.txt`：
 
 ```text
 pandas
 numpy
 scikit-learn
 matplotlib
+torch
+transformers
 ```
 
 安装命令：
