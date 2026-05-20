@@ -1,3 +1,7 @@
 original_label,unified_label,description
-negative,0,Negative movie review sentiment
-positive,1,Positive movie review sentiment
+POLITICS,POLITICS,"News articles about politics, government, and policy"
+WELLNESS,WELLNESS,"News articles about health, wellness, and healthy living"
+ENTERTAINMENT,ENTERTAINMENT,"News articles about movies, music, TV, and celebrities"
+TRAVEL,TRAVEL,"News articles about destinations, vacationing, and travel tips"
+STYLE & BEAUTY,STYLE & BEAUTY,"News articles about fashion, style, cosmetics, and beauty trends"
+PARENTING,PARENTING,"News articles about parenting, children, and family"
