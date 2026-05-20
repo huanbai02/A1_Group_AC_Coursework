@@ -114,6 +114,7 @@ def split_dataset(
     )
 
     validate_no_id_overlap(train_dataframe, validation_dataframe, test_dataframe)
+    validate_no_text_overlap(train_dataframe, validation_dataframe, test_dataframe)
     return train_dataframe, validation_dataframe, test_dataframe
 
 
@@ -129,6 +130,20 @@ def validate_no_id_overlap(
 
     if train_ids & validation_ids or train_ids & test_ids or validation_ids & test_ids:
         raise ValueError("Duplicate IDs found across train/validation/test splits")
+
+
+def validate_no_text_overlap(
+    train_dataframe: pd.DataFrame,
+    validation_dataframe: pd.DataFrame,
+    test_dataframe: pd.DataFrame,
+) -> None:
+    """Ensure duplicate text does not appear in more than one split."""
+    train_texts = set(train_dataframe["text"].astype(str))
+    validation_texts = set(validation_dataframe["text"].astype(str))
+    test_texts = set(test_dataframe["text"].astype(str))
+
+    if train_texts & validation_texts or train_texts & test_texts or validation_texts & test_texts:
+        raise ValueError("Duplicate text found across train/validation/test splits")
 
 
 def main() -> None:

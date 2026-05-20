@@ -61,14 +61,14 @@ def preprocess_dataframe(dataframe: pd.DataFrame) -> tuple[pd.DataFrame, dict[st
     cleaned_dataframe = cleaned_dataframe.drop_duplicates(subset=["id"])
     removed_duplicate_ids = before_id_deduplication - len(cleaned_dataframe)
 
-    before_text_label_deduplication = len(cleaned_dataframe)
-    cleaned_dataframe = cleaned_dataframe.drop_duplicates(subset=["text", "label"])
-    removed_duplicate_text_label = before_text_label_deduplication - len(cleaned_dataframe)
+    before_text_deduplication = len(cleaned_dataframe)
+    cleaned_dataframe = cleaned_dataframe.drop_duplicates(subset=["text"])
+    removed_duplicate_text = before_text_deduplication - len(cleaned_dataframe)
 
     removal_summary = {
         "removed_empty_rows": removed_empty_rows,
         "removed_duplicate_ids": removed_duplicate_ids,
-        "removed_duplicate_text_label_rows": removed_duplicate_text_label,
+        "removed_duplicate_text_rows": removed_duplicate_text,
         "total_removed_rows": initial_rows - len(cleaned_dataframe),
     }
     return cleaned_dataframe[REQUIRED_COLUMNS], removal_summary
