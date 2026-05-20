@@ -1,17 +1,35 @@
-# IMDB Dataset of 50K Movie Reviews
+# Dataset Information
 
-## Data Source
-The data originates from the Stanford Large Movie Review Dataset, provided by Maas et al. (2011). It contains 50,000 movie reviews for natural language processing or Text analytics.
-This package was specifically formatted to mirror the Kaggle dataset: [IMDB Dataset of 50K Movie Reviews](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews).
-To ensure accessibility and avoid API authentication issues, the raw data was sourced from the equivalent `imdb` dataset on Hugging Face Datasets, which contains the exact same 50,000 reviews (25,000 for training, 25,000 for testing).
+## Dataset Name
+IMDB Dataset of 50K Movie Reviews
 
-## Files Included
-- `raw_data.csv`: The complete dataset of 50,000 reviews, merging the original training and testing sets. Contains `id`, `text`, and `label` columns.
-- `sample_100.csv`: A random sample of 100 records from the `raw_data.csv` for quick data quality inspection.
-- `label_mapping.csv`: The mapping between the original sentiment text labels (`positive`, `negative`) and the unified integer labels (`1`, `0`).
-- `initial_label_distribution.csv`: Statistics on the label distribution across the entire dataset.
+## Source
+Maas et al. (2011), Stanford Large Movie Review Dataset.Sourced via the Kaggle dataset equivalent: [IMDB Dataset of 50K Movie Reviews](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews).
 
-## Label Information
-The unified labels are represented as integers:
-- `0`: Negative sentiment
-- `1`: Positive sentiment
+## Collection Method
+Formally collected from the Hugging Face `imdb` dataset to merge original train and test sets into a unified 50,000-review dataset, maintaining the identical content and format as the Kaggle version.
+
+## Classification Scenario
+Document-level sentiment classification (binary classification: positive vs. negative review).
+
+## Number of Instances
+50,000
+
+## Number of Labels
+2
+
+## Text Field Description
+`text`: Contains the raw English text of the movie review.
+
+## Label Field Description
+`label`: Mapped binary sentiment. `0` indicates negative sentiment, and `1` indicates positive sentiment.
+
+## Label List
+- `0` (negative)
+- `1` (positive)
+
+## Known Data Quality Issues
+Contains HTML formatting tags (e.g., `<br />`) and standard online review informalities (abbreviations, slang, punctuation noise) which require preprocessing/cleaning.
+
+## Reason for Selection
+Highly standard NLP benchmark dataset with balanced labels, sufficient instance count (>3,000 as required by coursework rules), and clear evaluation criteria for comparing traditional (SVM) and deep learning (BERT) algorithms.
