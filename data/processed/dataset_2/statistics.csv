@@ -1,0 +1,2 @@
+dataset,num_instances,num_labels,vocabulary_size,avg_doc_length,min_doc_length,max_doc_length
+dataset_2,60000,2,45372,34.12988333333333,8,97
