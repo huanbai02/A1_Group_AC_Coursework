@@ -333,28 +333,48 @@ For each dataset, generate:
 3. average document length;
 4. label distribution.
 
-### 8.1 `statistics.csv`
+### 8.1 Main Statistics Scope
 
-Required columns:
+The standard statistics files under each processed dataset directory are:
 
-```csv
-dataset,num_instances,num_labels,vocabulary_size,avg_doc_length,min_doc_length,max_doc_length
+```text
+data/processed/dataset_x/statistics.csv
+data/processed/dataset_x/label_distribution.csv
+data/processed/dataset_x/word_frequency.csv
 ```
 
-### 8.2 `label_distribution.csv`
+These files must be computed from the complete processed dataset, meaning:
 
-Required columns:
-
-```csv
-dataset,label,count,percentage
+```text
+train.csv + val.csv + test.csv
 ```
 
-### 8.3 `word_frequency.csv`
+The default `split` value for these report-ready statistics is `full`, which means the complete processed dataset. The default `text_version` value is `text`, which means the statistics are computed from the `text` column saved in the split CSV files.
+
+Formal report tables should preferentially cite these full processed dataset statistics. If train-only, validation-only, or test-only statistics are needed later, they must either use different file names or explicitly mark the scope in the `split` column. Split-specific statistics must not overwrite the standard `full` statistics files.
+
+### 8.2 `statistics.csv`
 
 Required columns:
 
 ```csv
-dataset,word,count
+dataset,split,text_version,num_instances,num_labels,vocabulary_size,avg_doc_length,min_doc_length,max_doc_length
+```
+
+### 8.3 `label_distribution.csv`
+
+Required columns:
+
+```csv
+dataset,split,label,count,percentage
+```
+
+### 8.4 `word_frequency.csv`
+
+Required columns:
+
+```csv
+dataset,split,word,count
 ```
 
 ---
