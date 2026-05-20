@@ -1,0 +1,2 @@
+dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
+dataset_2,naive_bayes,tfidf_unigram_bigram,0.9845055436036789,0.9843179096778151,0.9843195681781958,0.9845024180962165,0.9843211386634049,0.9843196205277027,0.9843211386634049,3.814650535583496,0.35178232192993164,42

@@ -53,7 +53,7 @@ Current datasets:
 | `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
 | `dataset_2` | AG News - Sports vs Business Classification | News topic classification | 60000 | 2 | 41966 / 8993 / 8993 |
 
-`dataset_1` and `dataset_2` represent different classification scenarios. No fake datasets, predictions, or metrics are generated. Current real metrics exist for Naive Bayes and Word2Vec on both datasets.
+`dataset_1` and `dataset_2` represent different classification scenarios. No fake datasets, predictions, or metrics are generated. Current real metrics exist for all four required models on both datasets.
 
 ## 4. Expected Project Structure
 
@@ -276,11 +276,28 @@ dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weigh
 Current result status: real prediction and metrics CSV files have been generated for:
 
 - `dataset_1_naive_bayes`;
-- `dataset_2_naive_bayes`;
+- `dataset_1_svm`;
 - `dataset_1_word2vec`;
-- `dataset_2_word2vec`.
+- `dataset_1_bert`;
+- `dataset_2_naive_bayes`;
+- `dataset_2_svm`;
+- `dataset_2_word2vec`;
+- `dataset_2_bert`.
 
 The aggregate summary is saved at `data/results/tables/all_metrics_summary.csv`, and the macro-F1 comparison figure is saved at `data/results/figures/f1_macro_comparison.png`.
+
+Current real test-set metric summary:
+
+| Dataset | Model | precision_macro | recall_macro | f1_macro | accuracy |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `dataset_1` | BERT | 0.6764 | 0.6822 | 0.6750 | 0.6822 |
+| `dataset_1` | Naive Bayes | 0.5936 | 0.5500 | 0.5383 | 0.5500 |
+| `dataset_1` | SVM | 0.5740 | 0.5778 | 0.5736 | 0.5778 |
+| `dataset_1` | Word2Vec | 0.4336 | 0.4433 | 0.4291 | 0.4433 |
+| `dataset_2` | BERT | 0.9945 | 0.9944 | 0.9944 | 0.9944 |
+| `dataset_2` | Naive Bayes | 0.9845 | 0.9843 | 0.9843 | 0.9843 |
+| `dataset_2` | SVM | 0.9896 | 0.9895 | 0.9895 | 0.9895 |
+| `dataset_2` | Word2Vec | 0.9859 | 0.9859 | 0.9859 | 0.9859 |
 
 ## 11. Evaluation and Aggregation Workflow
 

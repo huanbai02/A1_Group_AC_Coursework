@@ -1,0 +1,2 @@
+dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
+dataset_1,svm,tfidf_unigram_bigram,0.5739591238755458,0.5777777777777777,0.5736154418181887,0.5739591238755458,0.5777777777777777,0.5736154418181886,0.5777777777777777,0.7649953365325928,0.0528717041015625,42

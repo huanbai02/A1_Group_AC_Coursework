@@ -53,7 +53,7 @@
 | `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
 | `dataset_2` | AG News - Sports vs Business Classification | News topic classification | 60000 | 2 | 41966 / 8993 / 8993 |
 
-`dataset_1` 和 `dataset_2` 代表不同分类场景。项目不会生成虚假数据集、虚假 prediction 或虚假 metrics。当前已为两个数据集上的 Naive Bayes 和 Word2Vec 生成真实 metrics。
+`dataset_1` 和 `dataset_2` 代表不同分类场景。项目不会生成虚假数据集、虚假 prediction 或虚假 metrics。当前已为两个数据集上的四个必需模型生成真实 metrics。
 
 ## 4. 推荐目录结构
 
@@ -275,11 +275,28 @@ dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weigh
 当前结果状态：已为以下真实实验生成 prediction 和 metrics CSV 文件：
 
 - `dataset_1_naive_bayes`；
-- `dataset_2_naive_bayes`；
+- `dataset_1_svm`；
 - `dataset_1_word2vec`；
-- `dataset_2_word2vec`。
+- `dataset_1_bert`；
+- `dataset_2_naive_bayes`；
+- `dataset_2_svm`；
+- `dataset_2_word2vec`；
+- `dataset_2_bert`。
 
 汇总表保存于 `data/results/tables/all_metrics_summary.csv`，macro-F1 对比图保存于 `data/results/figures/f1_macro_comparison.png`。
+
+当前真实 test-set 指标汇总：
+
+| Dataset | Model | precision_macro | recall_macro | f1_macro | accuracy |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `dataset_1` | BERT | 0.6764 | 0.6822 | 0.6750 | 0.6822 |
+| `dataset_1` | Naive Bayes | 0.5936 | 0.5500 | 0.5383 | 0.5500 |
+| `dataset_1` | SVM | 0.5740 | 0.5778 | 0.5736 | 0.5778 |
+| `dataset_1` | Word2Vec | 0.4336 | 0.4433 | 0.4291 | 0.4433 |
+| `dataset_2` | BERT | 0.9945 | 0.9944 | 0.9944 | 0.9944 |
+| `dataset_2` | Naive Bayes | 0.9845 | 0.9843 | 0.9843 | 0.9843 |
+| `dataset_2` | SVM | 0.9896 | 0.9895 | 0.9895 | 0.9895 |
+| `dataset_2` | Word2Vec | 0.9859 | 0.9859 | 0.9859 | 0.9859 |
 
 ## 11. 评估和汇总流程
 

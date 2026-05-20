@@ -1,0 +1,2 @@
+dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
+dataset_2,bert,distilbert,0.9944527538881272,0.9944393033908038,0.9944400771259543,0.9944519474756981,0.994440120093406,0.9944400822820484,0.994440120093406,605.268792629242,20.718791246414185,42

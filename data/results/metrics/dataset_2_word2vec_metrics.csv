@@ -1,0 +1,2 @@
+dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
+dataset_2,word2vec,word2vec_avg_logreg,0.9858937985864937,0.9858769760976451,0.9858777681351185,0.985892898951631,0.9858779050372511,0.9858777828032042,0.9858779050372511,40.40139031410217,0.48088550567626953,42
