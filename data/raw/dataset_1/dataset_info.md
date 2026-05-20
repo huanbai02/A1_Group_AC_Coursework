@@ -1,39 +1,43 @@
 # Dataset Information
 
 ## Dataset Name
-News Category Dataset (Modified Subset)
+Yahoo Answers Topics
 
 ## Source
-Rishabh Misra (2012-2022). HuffPost news headlines dataset. Sourced via Hugging Face `heegyu/news-category-dataset`.
+Yahoo Answers 10 categories for NLP CSV public dataset. The original downloaded source files were used to prepare this standardized subset and are not kept in the repository.
 
 ## Collection Method
-Filtered from the original News Category Dataset to extract exactly six categories: POLITICS, WELLNESS, ENTERTAINMENT, TRAVEL, STYLE & BEAUTY, and PARENTING. For each category, exactly 8,000 instances were randomly sampled (random seed 42) to form a balanced subset of 48,000 instances in total. The text field was constructed by concatenating the headline and the short description.
+The original public dataset was manually downloaded. A balanced subset was sampled with a fixed random seed.
 
 ## Classification Scenario
-Document category classification (six-class single-label text classification).
+Community Q&A topic classification.
 
 ## Number of Instances
-48,000
+6000
 
 ## Number of Labels
-6
+10
 
 ## Text Field Description
-`text`: The combined text of the news headline and its short description (separated by a space).
+The text field is constructed by concatenating the question title, question content, and best answer when available.
 
 ## Label Field Description
-`label`: The news category string (one of: POLITICS, WELLNESS, ENTERTAINMENT, TRAVEL, STYLE & BEAUTY, PARENTING).
+The label field represents the main Yahoo Answers topic category of each Q&A document.
 
 ## Label List
-- POLITICS
-- WELLNESS
-- ENTERTAINMENT
-- TRAVEL
-- STYLE & BEAUTY
-- PARENTING
+- society_culture
+- science_mathematics
+- health
+- education_reference
+- computers_internet
+- sports
+- business_finance
+- entertainment_music
+- family_relationships
+- politics_government
 
 ## Known Data Quality Issues
-Some headlines or short descriptions may contain HTML entity characters or contractions. The short descriptions for some old news articles might be empty, in which case the text field relies solely on the headline.
+User-generated text may contain informal expressions, spelling mistakes, short questions, noisy answers, repeated content, URLs, HTML-like marks, or special characters.
 
 ## Reason for Selection
-Replaces the previous IMDB movie reviews dataset to represent a news topic classification scenario with 6 balanced classes and 48,000 total instances, satisfying the coursework requirement (>3000 instances per dataset).
+This dataset represents community Q&A topic classification, which is different from dataset_2 news topic classification.

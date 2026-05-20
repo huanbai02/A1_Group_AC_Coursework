@@ -114,7 +114,8 @@ def main() -> None:
     total_steps = len(train_loader) * args.epochs
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
     
-    scaler = torch.amp.GradScaler()
+    use_amp = device.type == 'cuda'
+    scaler = torch.amp.GradScaler('cuda', enabled=use_amp)
     
     print("Training started...")
     start_train = time.time()
