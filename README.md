@@ -189,13 +189,23 @@ python algorithms/preprocessing/split_dataset.py \
   --test_ratio 0.15
 ```
 
-Generate statistics for an input processed CSV, usually `train.csv`:
+Generate statistics for the full processed dataset. This is the recommended mode for formal report statistics because it combines `train.csv`, `val.csv`, and `test.csv` before writing `statistics.csv`, `label_distribution.csv`, and `word_frequency.csv`:
+
+```bash
+python algorithms/preprocessing/dataset_statistics.py \
+  --input_dir data/processed/dataset_1 \
+  --dataset_name dataset_1 \
+  --output_dir data/processed/dataset_1
+```
+
+If train-only or another split-specific statistic is needed, use the single-file `--input_path` mode and save it to a clearly named output directory:
 
 ```bash
 python algorithms/preprocessing/dataset_statistics.py \
   --input_path data/processed/dataset_1/train.csv \
   --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1
+  --output_dir data/processed/dataset_1/train_statistics \
+  --split_name train
 ```
 
 The statistics script outputs:
@@ -204,8 +214,7 @@ The statistics script outputs:
 - `label_distribution.csv`;
 - `word_frequency.csv`.
 
-For the prepared Yahoo Answers `dataset_1`, statistics are generated from the
-combined processed `train.csv`, `val.csv`, and `test.csv` splits.
+For the prepared datasets, the standard statistics files under `data/processed/dataset_x/` are generated from the full processed dataset (`train.csv + val.csv + test.csv`). Formal report tables should use these full processed dataset statistics, not train-only statistics.
 
 ## 9. Algorithm Script Interface
 

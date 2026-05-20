@@ -96,7 +96,7 @@ def main() -> None:
     metrics_row = build_metrics_row(
         dataset=args.dataset_name,
         model=MODEL_NAME,
-        feature_type="tfidf",
+        feature_type="tfidf_unigram_bigram",
         metrics=metrics,
         train_time_sec=train_time_sec,
         inference_time_sec=inference_time_sec,

@@ -188,13 +188,23 @@ python algorithms/preprocessing/split_dataset.py \
   --test_ratio 0.15
 ```
 
-对一个处理后的 CSV 生成统计信息，通常使用 `train.csv`：
+对完整 processed dataset 生成统计信息。这是正式报告统计的推荐模式，因为脚本会先合并 `train.csv`、`val.csv` 和 `test.csv`，再写出 `statistics.csv`、`label_distribution.csv` 和 `word_frequency.csv`：
+
+```bash
+python algorithms/preprocessing/dataset_statistics.py \
+  --input_dir data/processed/dataset_1 \
+  --dataset_name dataset_1 \
+  --output_dir data/processed/dataset_1
+```
+
+如果需要 train-only 或其他单个 split 的统计信息，使用单文件 `--input_path` 模式，并保存到名称明确的输出目录：
 
 ```bash
 python algorithms/preprocessing/dataset_statistics.py \
   --input_path data/processed/dataset_1/train.csv \
   --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1
+  --output_dir data/processed/dataset_1/train_statistics \
+  --split_name train
 ```
 
 统计脚本会输出：
@@ -203,8 +213,7 @@ python algorithms/preprocessing/dataset_statistics.py \
 - `label_distribution.csv`；
 - `word_frequency.csv`。
 
-对于已经整理好的 Yahoo Answers `dataset_1`，上述统计文件基于合并后的
-processed `train.csv`、`val.csv` 和 `test.csv` 生成。
+对于已准备好的数据集，`data/processed/dataset_x/` 下的标准统计文件基于完整 processed dataset（`train.csv + val.csv + test.csv`）生成。正式报告表格应使用这些 full processed dataset statistics，而不是 train-only statistics。
 
 ## 9. 算法脚本接口
 

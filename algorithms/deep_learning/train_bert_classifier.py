@@ -129,7 +129,7 @@ def main() -> None:
             
             optimizer.zero_grad()
             
-            with torch.amp.autocast('cuda'):
+            with torch.amp.autocast('cuda', enabled=use_amp):
                 outputs = model(input_ids=input_ids, attention_mask=attention_mask, labels=targets)
                 loss = outputs.loss
                 
@@ -152,7 +152,7 @@ def main() -> None:
             input_ids = batch['input_ids'].to(device)
             attention_mask = batch['attention_mask'].to(device)
             
-            with torch.amp.autocast('cuda'):
+            with torch.amp.autocast('cuda', enabled=use_amp):
                 outputs = model(input_ids=input_ids, attention_mask=attention_mask)
             
             _, preds = torch.max(outputs.logits, dim=1)
