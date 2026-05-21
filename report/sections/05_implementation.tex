@@ -1,6 +1,6 @@
 \section{Implementation}
 
-All models follow the same experimental protocol. For each dataset, the prepared train, validation, and test splits are fixed before model training. The same split is used for all four models, so performance differences are not caused by different test examples. The validation split is reserved for tuning decisions, while the final reported metrics are computed on the test split.
+All models follow the same experimental protocol. For each dataset, the prepared train, validation, and test splits are fixed before model training. The same split is used for all four models, so performance differences are not caused by different test examples. The validation split is kept for possible parameter checking, while the final reported metrics are computed on the test split.
 
 For Naive Bayes and SVM, the TF-IDF vectorizer is fitted only on the training text. The fitted vectorizer is then reused to transform the test text. This prevents information from the test split leaking into the feature space. Both models use unigram and bigram features with a maximum vocabulary size of 25000. Naive Bayes applies a multinomial probabilistic classifier, while SVM uses a linear maximum-margin classifier.
 

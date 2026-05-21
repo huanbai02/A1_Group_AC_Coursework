@@ -4,13 +4,13 @@ The experiment deliberately uses two datasets with different classification scen
 
 \input{tables/dataset_statistics_table}
 
-All statistics in Table~\ref{tab:dataset_statistics} are computed from the full processed dataset, meaning the train, validation, and test splits combined. This avoids reporting train-only statistics as if they described the whole dataset. Yahoo Answers contains 6000 processed documents, and AG News contains 59952 processed documents after cleaning and duplicate handling.
+All statistics in Table~\ref{tab:dataset_statistics} are computed from the full processed dataset, meaning the train, validation, and test splits combined. This avoids reporting train-only statistics as if they described the whole dataset. Yahoo Answers contains 6,000 processed documents, and AG News contains 59,952 processed documents after cleaning and duplicate handling.
 
 The preprocessing procedure applies lowercasing, tokenization, stopword removal, empty-text filtering, duplicate handling where necessary, and label standardisation. Traditional models and Word2Vec use the processed text representation. DistilBERT uses its own tokenizer during fine-tuning, so the text is not converted into sparse features before entering the model.
 
 \input{tables/top_frequent_words_table}
 
-Table~\ref{tab:top_frequent_words} summarises the most frequent tokens in the processed corpora. The distribution is dominated by common function words and corpus-specific artefacts, which shows why word frequency alone is descriptive rather than sufficient for classification. The classification models therefore use TF-IDF weighting, dense embeddings, or contextual token representations rather than raw frequency counts only.
+Table~\ref{tab:top_frequent_words} summarises frequent content words after excluding standard English stopwords, non-alphabetic tokens, and obvious corpus artefacts from the recorded word-frequency files. The Yahoo Answers terms still reflect conversational question-answering language, whereas the AG News terms are more directly associated with sports and business reporting. Word frequency is therefore useful as a descriptive corpus summary, while the classification models rely on TF-IDF weighting, dense embeddings, or contextual token representations for prediction.
 
 \begin{figure}[H]
     \centering

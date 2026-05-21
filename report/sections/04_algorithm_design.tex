@@ -10,13 +10,13 @@ The Naive Bayes model uses TF-IDF unigram and bigram features with \texttt{Multi
 \caption{TF-IDF + Multinomial Naive Bayes}
 \label{alg:naive_bayes}
 \begin{algorithmic}[1]
-\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
-\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
-\State Fit TF-IDF unigram/bigram vectorizer on $X_{train}$ only.
-\State Transform $X_{train}$ into training vectors $V_{train}$.
-\State Train \texttt{MultinomialNB} on $(V_{train}, y_{train})$.
-\State Transform $X_{test}$ using the fitted vectorizer to obtain $V_{test}$.
-\State Predict test labels $\hat{y}_{test}$ with the trained classifier.
+\Require Training texts $X_{\text{train}}$, training labels $y_{\text{train}}$, test texts $X_{\text{test}}$
+\Ensure Predicted labels $\hat{y}_{\text{test}}$ and evaluation metrics
+\State Fit TF-IDF unigram/bigram vectorizer on $X_{\text{train}}$ only.
+\State Transform $X_{\text{train}}$ into training vectors $V_{\text{train}}$.
+\State Train \texttt{MultinomialNB} on $(V_{\text{train}}, y_{\text{train}})$.
+\State Transform $X_{\text{test}}$ using the fitted vectorizer to obtain $V_{\text{test}}$.
+\State Predict test labels $\hat{y}_{\text{test}}$ with the trained classifier.
 \State Compute precision, recall, F1-score, and accuracy.
 \end{algorithmic}
 \end{algorithm}
@@ -31,13 +31,13 @@ The SVM model uses TF-IDF unigram and bigram features with \texttt{LinearSVC}. A
 \caption{TF-IDF + Linear Support Vector Machine}
 \label{alg:svm}
 \begin{algorithmic}[1]
-\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
-\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
-\State Fit TF-IDF unigram/bigram vectorizer on $X_{train}$ only.
-\State Transform $X_{train}$ into training vectors $V_{train}$.
-\State Train \texttt{LinearSVC} on $(V_{train}, y_{train})$.
-\State Transform $X_{test}$ using the fitted vectorizer to obtain $V_{test}$.
-\State Predict test labels $\hat{y}_{test}$ with the trained SVM.
+\Require Training texts $X_{\text{train}}$, training labels $y_{\text{train}}$, test texts $X_{\text{test}}$
+\Ensure Predicted labels $\hat{y}_{\text{test}}$ and evaluation metrics
+\State Fit TF-IDF unigram/bigram vectorizer on $X_{\text{train}}$ only.
+\State Transform $X_{\text{train}}$ into training vectors $V_{\text{train}}$.
+\State Train \texttt{LinearSVC} on $(V_{\text{train}}, y_{\text{train}})$.
+\State Transform $X_{\text{test}}$ using the fitted vectorizer to obtain $V_{\text{test}}$.
+\State Predict test labels $\hat{y}_{\text{test}}$ with the trained SVM.
 \State Compute precision, recall, F1-score, and accuracy.
 \end{algorithmic}
 \end{algorithm}
@@ -52,10 +52,10 @@ The Word2Vec pipeline trains embeddings only on the training split. Each documen
 \caption{Self-trained Word2Vec + Average Pooling + Logistic Regression}
 \label{alg:word2vec}
 \begin{algorithmic}[1]
-\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
-\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
-\State Tokenize training texts into token lists $T_{train}$.
-\State Train Word2Vec only on $T_{train}$.
+\Require Training texts $X_{\text{train}}$, training labels $y_{\text{train}}$, test texts $X_{\text{test}}$
+\Ensure Predicted labels $\hat{y}_{\text{test}}$ and evaluation metrics
+\State Tokenize training texts into token lists $T_{\text{train}}$.
+\State Train Word2Vec only on $T_{\text{train}}$.
 \For{each document $d$ in training and test texts}
     \State Collect Word2Vec vectors for in-vocabulary tokens in $d$.
     \If{no token in $d$ is in vocabulary}
@@ -64,8 +64,8 @@ The Word2Vec pipeline trains embeddings only on the training split. Each documen
         \State Average in-vocabulary word vectors into one document vector.
     \EndIf
 \EndFor
-\State Train Logistic Regression on training document vectors and $y_{train}$.
-\State Predict test labels $\hat{y}_{test}$ from test document vectors.
+\State Train Logistic Regression on training document vectors and $y_{\text{train}}$.
+\State Predict test labels $\hat{y}_{\text{test}}$ from test document vectors.
 \State Compute precision, recall, F1-score, and accuracy.
 \end{algorithmic}
 \end{algorithm}
@@ -80,8 +80,8 @@ The BERT-based model fine-tunes \texttt{distilbert-base-uncased} for sequence cl
 \caption{DistilBERT Fine-tuning for Document Topic Classification}
 \label{alg:bert}
 \begin{algorithmic}[1]
-\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
-\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
+\Require Training texts $X_{\text{train}}$, training labels $y_{\text{train}}$, test texts $X_{\text{test}}$
+\Ensure Predicted labels $\hat{y}_{\text{test}}$ and evaluation metrics
 \State Encode string labels as integer class IDs.
 \State Load \texttt{distilbert-base-uncased} tokenizer and sequence classification model.
 \State Tokenize input text with maximum length 128, truncation, and padding.
