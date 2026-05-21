@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{caption}
+
+\geometry{margin=2.5cm}
+
+\title{Literature Review: Document Topic Classification}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Overview and Applications}
+
+Document topic classification is a foundational Natural Language Processing (NLP) task that assigns predefined thematic categories to unstructured textual data. By transforming unformatted text into structured metadata, classification models unlock advanced data mining capabilities. In real-world environments, this technology is deployed across high-stakes domains. First, in medical diagnostics, clinical NLP models extract tumor characteristics from pathology reports, aiding patient care and epidemiological research \citep{demner2021natural}. Second, academic resource systems utilize pattern classifiers to automatically generate metadata for Massive Open Online Courses (MOOCs) and categorize vast distance-learning repositories \citep{sebbaq2022fine}. Third, the news industry relies on real-time classification pipelines to moderate content, evaluate publication trustworthiness, and filter misinformation, ensuring algorithmic accountability \citep{shu2017fake}.
+
+\section*{Key Challenges}
+
+Despite algorithmic advancements, the deployment of robust classification systems is hindered by data complexities. Class imbalance remains a critical obstacle, occurring when certain thematic categories dominate a dataset while minority classes are underrepresented. This asymmetry severely skews decision boundaries, causing predictive models to favor majority classes and perform poorly on rare occurrences \citep{karaman2026similarity}. Additionally, text datasets inherently suffer from high dimensionality and sparsity. Because natural language features an enormous global vocabulary, vector representations generate massive, mostly empty mathematical matrices, triggering computational inefficiencies and over-fitting \citep{joachims1998text}. Finally, semantic ambiguity restricts model reliability. Traditional frameworks treat words as isolated entities, failing to capture grammatical structures, polysemy, and dynamic contextual relationships, resulting in a profound loss of textual nuance \citep{devlin2019bert}.
+
+\section*{Methodological Evolution}
+
+Historically, traditional machine learning established the framework for text categorization. The Bag-of-Words (BoW) model represents text as an unordered frequency matrix. While its primary advantages are exceptional computational efficiency and native interpretability, BoW suffers from an inability to capture sequential context, resulting in severe feature sparsity and blindness to out-of-vocabulary words \citep{manning2008introduction}. To improve predictive performance, eXtreme Gradient Boosting (XGBoost) is applied as an ensemble decision-tree classifier. XGBoost boasts superior parameter efficiency, scalability, and robustness against class imbalance through aggressive regularization \citep{chen2016xgboost}. However, its core disadvantages include an inability to natively ingest raw text without external feature extractors and a high sensitivity to exhaustive hyperparameter tuning. To overcome traditional limitations, deep learning methodologies leverage continuous vector spaces. Long Short-Term Memory (LSTM) networks utilize specialized gating mechanisms to bypass the vanishing gradient problem inherent in recurrent neural networks. This provides the critical advantage of retaining temporal text structure and sequential dependencies \citep{hochreiter1997long}. Conversely, LSTMs are disadvantaged by their sequential processing nature, preventing hardware parallelization and causing extremely slow training cycles. Currently, Bidirectional Encoder Representations from Transformers (BERT) dominate the field by employing non-sequential self-attention mechanisms. BERT's primary advantage is its unprecedented bidirectional semantic comprehension, allowing for state-of-the-art accuracy. Nevertheless, these massive contextual advantages are offset by exorbitant computational costs, massive parameter counts, and high inferential latency \citep{devlin2019bert}.
+
+
+\vspace{1em}
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}

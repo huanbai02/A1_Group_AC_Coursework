@@ -1,0 +1,95 @@
+\section{Algorithm Design}
+
+Pseudo-code in this section follows the actual project scripts. It is included for algorithm design explanation and is excluded from the report word count.
+
+\subsection{Naive Bayes}
+
+The Naive Bayes model uses TF-IDF unigram and bigram features with \texttt{MultinomialNB}. The vectorizer is fitted only on the training split, and the trained vectorizer is then applied to the test split.
+
+\begin{algorithm}[H]
+\caption{TF-IDF + Multinomial Naive Bayes}
+\label{alg:naive_bayes}
+\begin{algorithmic}[1]
+\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
+\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
+\State Fit TF-IDF unigram/bigram vectorizer on $X_{train}$ only.
+\State Transform $X_{train}$ into training vectors $V_{train}$.
+\State Train \texttt{MultinomialNB} on $(V_{train}, y_{train})$.
+\State Transform $X_{test}$ using the fitted vectorizer to obtain $V_{test}$.
+\State Predict test labels $\hat{y}_{test}$ with the trained classifier.
+\State Compute precision, recall, F1-score, and accuracy.
+\end{algorithmic}
+\end{algorithm}
+
+The feature representation is sparse lexical evidence. The classifier is efficient and gives a clear baseline, but its conditional independence assumption limits its ability to model word interactions.
+
+\subsection{Support Vector Machine}
+
+The SVM model uses TF-IDF unigram and bigram features with \texttt{LinearSVC}. A linear classifier is suitable for high-dimensional sparse text features.
+
+\begin{algorithm}[H]
+\caption{TF-IDF + Linear Support Vector Machine}
+\label{alg:svm}
+\begin{algorithmic}[1]
+\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
+\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
+\State Fit TF-IDF unigram/bigram vectorizer on $X_{train}$ only.
+\State Transform $X_{train}$ into training vectors $V_{train}$.
+\State Train \texttt{LinearSVC} on $(V_{train}, y_{train})$.
+\State Transform $X_{test}$ using the fitted vectorizer to obtain $V_{test}$.
+\State Predict test labels $\hat{y}_{test}$ with the trained SVM.
+\State Compute precision, recall, F1-score, and accuracy.
+\end{algorithmic}
+\end{algorithm}
+
+The main component is the maximum-margin linear decision boundary. Compared with Naive Bayes, it does not model class-conditional word probabilities, but it often works well with sparse text features.
+
+\subsection{Word2Vec-based Classifier}
+
+The Word2Vec pipeline trains embeddings only on the training split. Each document is represented by the average of its in-vocabulary token vectors, and Logistic Regression performs final classification.
+
+\begin{algorithm}[H]
+\caption{Self-trained Word2Vec + Average Pooling + Logistic Regression}
+\label{alg:word2vec}
+\begin{algorithmic}[1]
+\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
+\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
+\State Tokenize training texts into token lists $T_{train}$.
+\State Train Word2Vec only on $T_{train}$.
+\For{each document $d$ in training and test texts}
+    \State Collect Word2Vec vectors for in-vocabulary tokens in $d$.
+    \If{no token in $d$ is in vocabulary}
+        \State Use a zero vector as the document vector.
+    \Else
+        \State Average in-vocabulary word vectors into one document vector.
+    \EndIf
+\EndFor
+\State Train Logistic Regression on training document vectors and $y_{train}$.
+\State Predict test labels $\hat{y}_{test}$ from test document vectors.
+\State Compute precision, recall, F1-score, and accuracy.
+\end{algorithmic}
+\end{algorithm}
+
+The implementation uses \texttt{vector\_size=100}, \texttt{window=5}, \texttt{min\_count=2}, \texttt{sg=1}, and Logistic Regression with \texttt{max\_iter=1000}. Its limitation is that average pooling removes word order and much of the local context.
+
+\subsection{BERT-based Classifier}
+
+The BERT-based model fine-tunes \texttt{distilbert-base-uncased} for sequence classification. Labels are encoded with \texttt{LabelEncoder}; predictions are decoded back to the original label strings before saving.
+
+\begin{algorithm}[H]
+\caption{DistilBERT Fine-tuning for Document Topic Classification}
+\label{alg:bert}
+\begin{algorithmic}[1]
+\Require Training texts $X_{train}$, training labels $y_{train}$, test texts $X_{test}$
+\Ensure Predicted labels $\hat{y}_{test}$ and evaluation metrics
+\State Encode string labels as integer class IDs.
+\State Load \texttt{distilbert-base-uncased} tokenizer and sequence classification model.
+\State Tokenize input text with maximum length 128, truncation, and padding.
+\State Fine-tune the DistilBERT classifier on the training split.
+\State Evaluate the fine-tuned model on the test split.
+\State Decode predicted class IDs back to original label strings.
+\State Compute precision, recall, F1-score, and accuracy.
+\end{algorithmic}
+\end{algorithm}
+
+DistilBERT provides contextual token representations, which helps with ambiguous or informal documents. The cost is higher training and inference time than the traditional models.

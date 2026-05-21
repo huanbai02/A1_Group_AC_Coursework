@@ -1,0 +1,22 @@
+\begin{table}[H]
+\centering
+\caption{Test performance by dataset, sorted by macro F1-score within each dataset.}
+\label{tab:metrics_summary}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Model & Precision Macro & Recall Macro & F1 Macro & Accuracy \\
+\midrule
+Yahoo Answers Topics & DistilBERT & \textbf{0.6764} & \textbf{0.6822} & \textbf{0.6750} & \textbf{0.6822} \\
+Yahoo Answers Topics & Linear SVM & 0.5740 & 0.5778 & 0.5736 & 0.5778 \\
+Yahoo Answers Topics & Naive Bayes & 0.5936 & 0.5500 & 0.5383 & 0.5500 \\
+Yahoo Answers Topics & Word2Vec avg & 0.4336 & 0.4433 & 0.4291 & 0.4433 \\
+\midrule
+AG News Sports vs Business & DistilBERT & \textbf{0.9945} & \textbf{0.9944} & \textbf{0.9944} & \textbf{0.9944} \\
+AG News Sports vs Business & Linear SVM & 0.9896 & 0.9895 & 0.9895 & 0.9895 \\
+AG News Sports vs Business & Word2Vec avg & 0.9859 & 0.9859 & 0.9859 & 0.9859 \\
+AG News Sports vs Business & Naive Bayes & 0.9845 & 0.9843 & 0.9843 & 0.9843 \\
+\bottomrule
+\end{tabular}
+}
+\end{table}

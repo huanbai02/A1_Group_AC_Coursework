@@ -1,0 +1,59 @@
+\section{Literature Reviews}
+
+\subsection{Literature Review by Jiacheng Gui}
+
+\subsubsection{Overview and Applications}
+
+Document topic classification is a supervised NLP task that assigns documents to predefined topic labels. These documents can be news articles, community questions, academic abstracts, reviews, or social media posts. This task is useful because large text collections are difficult to organise manually. A typical pipeline includes document representation, classifier training, and evaluation on unseen data \cite{sebastiani2002machine}.
+
+There are several real-life applications. First, news platforms can classify articles into topics such as sports, business, politics, or entertainment, which supports content navigation and recommendation. Second, academic databases can organise papers by research fields, which improves indexing and retrieval. Third, community question answering platforms can route user questions to suitable categories or experts, such as health, education, science, or finance.
+
+\subsubsection{Key Challenges}
+
+Document topic classification has several challenges. The first challenge is high-dimensional sparse representation. Traditional methods often use Bag-of-Words or TF-IDF features, where each word or n-gram may become one feature. This creates a large and sparse feature space. The second challenge is semantic ambiguity. A word can have different meanings in different contexts, and different words can express similar meanings. The third challenge is uneven topic structure, including topic overlap and label imbalance. Some documents contain signals from multiple topics, and imbalanced labels can reduce macro-level performance.
+
+\subsubsection{Traditional Methods}
+
+Naive Bayes is a common traditional baseline for text classification. It estimates the probability of each class from word occurrence features. The multinomial Naive Bayes model is often used for document classification because it is simple and efficient \cite{mccallum1998comparison}. Its main advantage is fast training and easy implementation. However, it assumes that features are conditionally independent given the class label, which is not realistic for natural language.
+
+Support Vector Machine is another strong traditional method. A linear SVM with TF-IDF features is effective for high-dimensional sparse text data \cite{joachims1998text}. Its advantage is that it can learn clear decision boundaries and often performs better than simple probabilistic baselines. However, it depends heavily on feature engineering and cannot easily capture word order or deeper contextual meaning.
+
+\subsubsection{Deep Learning Approaches}
+
+A Word2Vec-based classifier uses dense word embeddings learned from text corpora to build document representations, for example by averaging word vectors before classification \cite{mikolov2013efficient}. This method can capture some semantic similarity between words. However, average pooling loses word order, sequence information, and contextual meaning, so it may be weak for documents with complex topic signals.
+
+BERT-based classification uses contextual representations from a pretrained Transformer model \cite{devlin2019bert}. It can capture context-dependent meanings and is useful for ambiguous or informal texts. However, it requires more computation, longer training time, and careful control of sequence length. These training costs and sequence length limits make it less lightweight than traditional methods.
+
+\subsubsection{Summary}
+
+Overall, traditional methods are efficient and useful baselines, while deep learning methods usually provide stronger semantic or contextual representations, but require more computation and careful training. Therefore, using both traditional and neural methods provides a useful basis for comparing sparse lexical features, dense semantic embeddings, and contextual representations across different datasets.
+
+\subsection{Literature Review by Junhao Feng}
+
+\subsubsection{Overview and Applications}
+
+Document topic classification is a foundational Natural Language Processing (NLP) task that assigns predefined thematic categories to unstructured textual data. By transforming unformatted text into structured metadata, classification models unlock advanced data mining capabilities. In real-world environments, this technology is deployed across high-stakes domains. First, in medical diagnostics, clinical NLP models extract tumor characteristics from pathology reports, aiding patient care and epidemiological research \cite{demner2021natural}. Second, academic resource systems utilize pattern classifiers to automatically generate metadata for Massive Open Online Courses (MOOCs) and categorize vast distance-learning repositories \cite{sebbaq2022fine}. Third, the news industry relies on real-time classification pipelines to moderate content, evaluate publication trustworthiness, and filter misinformation, ensuring algorithmic accountability \cite{shu2017fake}.
+
+\subsubsection{Key Challenges}
+
+Despite algorithmic advancements, the deployment of robust classification systems is hindered by data complexities. Class imbalance remains a critical obstacle, occurring when certain thematic categories dominate a dataset while minority classes are underrepresented. This asymmetry severely skews decision boundaries, causing predictive models to favor majority classes and perform poorly on rare occurrences \cite{karaman2026similarity}. Additionally, text datasets inherently suffer from high dimensionality and sparsity. Because natural language features an enormous global vocabulary, vector representations generate massive, mostly empty mathematical matrices, triggering computational inefficiencies and over-fitting \cite{joachims1998text}. Finally, semantic ambiguity restricts model reliability. Traditional frameworks treat words as isolated entities, failing to capture grammatical structures, polysemy, and dynamic contextual relationships, resulting in a profound loss of textual nuance \cite{devlin2019bert}.
+
+\subsubsection{Methodological Evolution}
+
+Historically, traditional machine learning established the framework for text categorization. The Bag-of-Words (BoW) model represents text as an unordered frequency matrix. While its primary advantages are exceptional computational efficiency and native interpretability, BoW suffers from an inability to capture sequential context, resulting in severe feature sparsity and blindness to out-of-vocabulary words \cite{manning2008introduction}. To improve predictive performance, eXtreme Gradient Boosting (XGBoost) is applied as an ensemble decision-tree classifier. XGBoost boasts superior parameter efficiency, scalability, and robustness against class imbalance through aggressive regularization \cite{chen2016xgboost}. However, its core disadvantages include an inability to natively ingest raw text without external feature extractors and a high sensitivity to exhaustive hyperparameter tuning. To overcome traditional limitations, deep learning methodologies leverage continuous vector spaces. Long Short-Term Memory (LSTM) networks utilize specialized gating mechanisms to bypass the vanishing gradient problem inherent in recurrent neural networks. This provides the critical advantage of retaining temporal text structure and sequential dependencies \cite{hochreiter1997long}. Conversely, LSTMs are disadvantaged by their sequential processing nature, preventing hardware parallelization and causing extremely slow training cycles. Currently, Bidirectional Encoder Representations from Transformers (BERT) dominate the field by employing non-sequential self-attention mechanisms. BERT's primary advantage is its unprecedented bidirectional semantic comprehension, allowing for state-of-the-art accuracy. Nevertheless, these massive contextual advantages are offset by exorbitant computational costs, massive parameter counts, and high inferential latency \cite{devlin2019bert}.
+
+\subsection{Literature Review by Xinyu Ren}
+
+\subsubsection{Overview and Applications}
+
+Document topic classification is a core supervised natural language processing (NLP) task that automatically assigns predefined topic labels to unstructured documents according to their semantic content \cite{jurafsky2023speech}. It serves as a foundational technique for organizing, retrieving, and analyzing large-scale text corpora in both academic and industrial scenarios. Three representative real-world applications are widely adopted: news article categorization, which classifies news into politics, sports, entertainment, and technology for efficient content distribution; academic paper indexing, which organizes research works into disciplines such as computer science, medicine, and engineering to facilitate knowledge retrieval; and social media content tagging, which labels posts by topics like public health, environmental issues, or economic trends for content management and public opinion monitoring. These applications demonstrate the practical significance and wide applicability of document topic classification.
+
+\subsubsection{Key Challenges}
+
+Despite substantial progress, document topic classification still faces three fundamental challenges. First, \textit{semantic ambiguity} caused by polysemy and context-dependent meanings hinders accurate topic judgment. Second, \textit{high dimensionality and sparsity} of text features, due to large vocabulary sizes, increases computational complexity and degrades model generalization. Third, \textit{domain adaptation} difficulty arises when training and test data differ in vocabulary, style, and topic distribution, leading to significant performance drops in cross-domain scenarios.
+
+\subsubsection{Traditional and Deep Learning Approaches}
+
+Traditional methods mainly include Naive Bayes and Support Vector Machines (SVM). Naive Bayes is computationally efficient, robust to high-dimensional data, and easy to implement, but it assumes word independence and ignores contextual information, limiting its performance on complex texts. SVM, combined with TF-IDF features, delivers stable and accurate results on moderate datasets and exhibits strong generalization ability, yet it suffers from high computational costs when dealing with large-scale corpora.
+
+Deep learning methods, exemplified by Long Short-Term Memory (LSTM) and Gated Recurrent Units (GRU), effectively capture sequential and contextual dependencies. LSTM mitigates the vanishing gradient problem and models long-range semantic dependencies well, achieving high accuracy on complex documents, but it requires substantial computational resources and longer training time. GRU simplifies the LSTM architecture with fewer parameters, accelerating training while maintaining competitive performance; however, it may lose subtle contextual details compared with LSTM.

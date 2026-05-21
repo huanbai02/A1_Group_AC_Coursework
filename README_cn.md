@@ -98,6 +98,11 @@
 │       ├── tables/
 │       └── figures/
 ├── report/
+│   ├── main.tex
+│   ├── references.bib
+│   ├── sections/
+│   ├── tables/
+│   ├── figures/
 │   ├── group_report/
 │   └── individual_literature_reviews/
 └── notes/
@@ -354,7 +359,17 @@ Naive Bayes 使用 `feature_type=tfidf_unigram_bigram`。Word2Vec 使用 `featur
 7. 如果依赖、命令或输出格式发生变化，同步更新 `README.md` 和 `README_cn.md`；
 8. 避免写死本机绝对路径，不写没有 CSV 结果支持的报告结论。
 
-## 14. 依赖
+## 14. 最终报告结构
+
+整合后的最终报告从 `report/main.tex` 编译。章节文件存放在 `report/sections/`，生成的 LaTeX 表格存放在 `report/tables/`，报告本地使用的图片副本存放在 `report/figures/`。已有个人文献综述源文件夹继续保留在 `report/individual_literature_reviews/`；Junhao Feng 的文献综述在整合报告中暂时保留占位，等待其源文本提供后再插入。
+
+当前最终报告中的表格和图片来自真实项目输出：
+
+- metrics table：`data/results/tables/all_metrics_summary.csv`；
+- F1 figure source：`data/results/figures/f1_macro_comparison.png`；
+- dataset statistics：`data/processed/dataset_1/statistics.csv` 和 `data/processed/dataset_2/statistics.csv`。
+
+## 15. 依赖
 
 项目依赖列在 `requirements.txt`：
 

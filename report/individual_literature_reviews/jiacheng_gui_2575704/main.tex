@@ -1,0 +1,27 @@
+\subsection{Literature Review by Jiacheng Gui}
+
+\subsubsection{Overview and Applications}
+
+Document topic classification is a supervised NLP task that assigns documents to predefined topic labels. These documents can be news articles, community questions, academic abstracts, reviews, or social media posts. This task is useful because large text collections are difficult to organise manually. A typical pipeline includes document representation, classifier training, and evaluation on unseen data \cite{sebastiani2002machine}.
+
+There are several real-life applications. First, news platforms can classify articles into topics such as sports, business, politics, or entertainment, which supports content navigation and recommendation. Second, academic databases can organise papers by research fields, which improves indexing and retrieval. Third, community question answering platforms can route user questions to suitable categories or experts, such as health, education, science, or finance.
+
+\subsubsection{Key Challenges}
+
+Document topic classification has several challenges. The first challenge is high-dimensional sparse representation. Traditional methods often use Bag-of-Words or TF-IDF features, where each word or n-gram may become one feature. This creates a large and sparse feature space. The second challenge is semantic ambiguity. A word can have different meanings in different contexts, and different words can express similar meanings. The third challenge is uneven topic structure, including topic overlap and label imbalance. Some documents contain signals from multiple topics, and imbalanced labels can reduce macro-level performance.
+
+\subsubsection{Traditional Methods}
+
+Naïve Bayes is a common traditional baseline for text classification. It estimates the probability of each class from word occurrence features. The multinomial Naïve Bayes model is often used for document classification because it is simple and efficient \cite{mccallum1998comparison}. Its main advantage is fast training and easy implementation. However, it assumes that features are conditionally independent given the class label, which is not realistic for natural language.
+
+Support Vector Machine is another strong traditional method. A linear SVM with TF-IDF features is effective for high-dimensional sparse text data \cite{joachims1998text}. Its advantage is that it can learn clear decision boundaries and often performs better than simple probabilistic baselines. However, it depends heavily on feature engineering and cannot easily capture word order or deeper contextual meaning.
+
+\subsubsection{Deep Learning Approaches}
+
+A Word2Vec-based classifier uses dense word embeddings learned from text corpora to build document representations, for example by averaging word vectors before classification \cite{mikolov2013efficient}. This method can capture some semantic similarity between words. However, average pooling loses word order, sequence information, and contextual meaning, so it may be weak for documents with complex topic signals.
+
+BERT-based classification uses contextual representations from a pretrained Transformer model \cite{devlin2019bert}. It can capture context-dependent meanings and is useful for ambiguous or informal texts. However, it requires more computation, longer training time, and careful control of sequence length. These training costs and sequence length limits make it less lightweight than traditional methods.
+
+\subsubsection{Summary}
+
+Overall, traditional methods are efficient and useful baselines, while deep learning methods usually provide stronger semantic or contextual representations, but require more computation and careful training. Therefore, using both traditional and neural methods provides a useful basis for comparing sparse lexical features, dense semantic embeddings, and contextual representations across different datasets.

@@ -1,0 +1,11 @@
+\section{Implementation}
+
+All models follow the same experimental protocol. For each dataset, the prepared train, validation, and test splits are fixed before model training. The same split is used for all four models, so performance differences are not caused by different test examples. The validation split is reserved for tuning decisions, while the final reported metrics are computed on the test split.
+
+For Naive Bayes and SVM, the TF-IDF vectorizer is fitted only on the training text. The fitted vectorizer is then reused to transform the test text. This prevents information from the test split leaking into the feature space. Both models use unigram and bigram features with a maximum vocabulary size of 25000. Naive Bayes applies a multinomial probabilistic classifier, while SVM uses a linear maximum-margin classifier.
+
+For the Word2Vec-based classifier, embeddings are trained only on the training split. Each document is represented by the average of its in-vocabulary word vectors, and documents without in-vocabulary tokens receive a zero vector. A Logistic Regression classifier is then trained on these document vectors. This setup keeps the method simple and reproducible, but it also means that word order and context are not directly modelled.
+
+The BERT-based classifier fine-tunes \texttt{distilbert-base-uncased} for sequence classification. Input text is tokenized with truncation and padding to a maximum length of 128. The default setup uses batch size 16, learning rate 2e-5, two training epochs, and GPU acceleration when available. Labels are encoded during training and decoded back to their original topic names for evaluation.
+
+Evaluation is unified across all models. The reported measures are macro precision, macro recall, macro F1-score, and accuracy. Macro scores are emphasised because they treat each class equally. Reproducibility is supported by a fixed random seed of 42 for splitting, model initialization where applicable, and deterministic Word2Vec worker settings.

@@ -98,6 +98,11 @@ Current datasets:
 │       ├── tables/
 │       └── figures/
 ├── report/
+│   ├── main.tex
+│   ├── references.bib
+│   ├── sections/
+│   ├── tables/
+│   ├── figures/
 │   ├── group_report/
 │   └── individual_literature_reviews/
 └── notes/
@@ -355,7 +360,17 @@ When implementing a model, group members should:
 7. update both `README.md` and `README_cn.md` if dependencies, commands, or outputs change;
 8. avoid hard-coded absolute paths and avoid generating unsupported report claims.
 
-## 14. Dependencies
+## 14. Final Report Structure
+
+The integrated final report is built from `report/main.tex`. Section files are stored under `report/sections/`, generated LaTeX tables under `report/tables/`, and report-local figure copies under `report/figures/`. Existing individual literature review source folders remain under `report/individual_literature_reviews/`; Junhao Feng's literature review is currently represented by a placeholder in the integrated report until his source text is provided.
+
+The current final-report table and figure inputs are derived from real project outputs:
+
+- metrics table: `data/results/tables/all_metrics_summary.csv`;
+- F1 figure source: `data/results/figures/f1_macro_comparison.png`;
+- dataset statistics: `data/processed/dataset_1/statistics.csv` and `data/processed/dataset_2/statistics.csv`.
+
+## 15. Dependencies
 
 Dependencies are listed in `requirements.txt`:
 
