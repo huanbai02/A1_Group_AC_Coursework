@@ -18,10 +18,38 @@ Table~\ref{tab:metrics_summary} reports the test-set results for all model-datas
     \label{fig:dataset_2_macro_f1}
 \end{figure}
 
-Yahoo Answers Topics is clearly harder than AG News Sports vs Business. The best macro F1 on Yahoo Answers is 0.6750 from DistilBERT, while the best macro F1 on AG News is 0.9944. The gap is expected because Yahoo Answers has 10 labels, informal community text, and overlapping topic signals. A question may contain terms that are useful for several categories, and short user-generated text can omit context. In contrast, AG News is a binary news classification task where sports and business vocabulary is often more separable.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.68\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/dataset_1_bert_confusion_matrix.png}
+        \caption{DistilBERT}
+        \label{fig:cm_dataset1_bert}
+    \end{subfigure}
 
-Precision, recall, and F1 show slightly different aspects of performance. On Yahoo Answers, DistilBERT has the highest macro precision (0.6764), recall (0.6822), and F1-score (0.6750), which means its advantage is not caused by only one metric. SVM has a better macro F1 than Naive Bayes, although Naive Bayes has higher macro precision. This suggests that Naive Bayes is more conservative for some classes, while SVM gives a better precision-recall balance. Word2Vec has the lowest precision, recall, and F1 on Yahoo Answers. Its average pooling representation removes word order and contextual interactions, which is harmful for a noisy multi-class Q\&A dataset.
+    \vspace{0.4em}
 
-On AG News, all four models are strong across precision, recall, F1-score, and accuracy. DistilBERT is still the best model, but the margin over SVM is small. SVM, Naive Bayes, and Word2Vec all exceed 0.984 macro F1, showing that clear topic vocabulary can make traditional lexical features highly competitive. These high scores should not be over-generalised to all topic classification tasks. They mainly show that this binary news task is easier and more lexically separable than the Yahoo Answers setting.
+    \begin{subfigure}{0.68\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/dataset_1_word2vec_confusion_matrix.png}
+        \caption{Word2Vec-based classifier}
+        \label{fig:cm_dataset1_word2vec}
+    \end{subfigure}
+    \caption{Normalized confusion matrices on Dataset 1 (Yahoo Answers Topics).}
+    \label{fig:dataset1_confusion_matrices}
+\end{figure}
 
-Overall, the results support a task-dependent interpretation. Contextual fine-tuning is most useful for the harder multi-class Q\&A dataset. Traditional TF-IDF methods remain strong when the task has clear lexical boundaries. Average Word2Vec document vectors are lightweight, but their loss of order and context makes them less reliable on complex topic structures.
+\textbf{Overall comparison.}
+Yahoo Answers Topics is clearly harder than AG News Sports vs Business. The best macro F1 on Yahoo Answers is 0.6750 from DistilBERT, while the best macro F1 on AG News is 0.9944. This gap is expected because Yahoo Answers has 10 labels, informal community text, and overlapping topic signals. In contrast, AG News is a binary news classification task where sports and business vocabulary is often more separable.
+
+\textbf{Precision.}
+Precision measures how reliable the predicted labels are. On Yahoo Answers, DistilBERT obtains the highest macro precision (0.6764), suggesting that its contextual representations help avoid some incorrect topic assignments in ambiguous Q\&A text. Naive Bayes has higher macro precision (0.5936) than macro recall (0.5500), which suggests a conservative pattern: when it predicts some classes, the prediction can be relatively reliable, but it does not retrieve enough true examples from all classes. SVM does not have the highest precision (0.5740), but its precision and recall (0.5778) are more balanced, showing that a linear margin with TF-IDF features gives stable behaviour in sparse text space. On AG News, all models have very high precision because sports and business articles contain strong lexical cues. The small precision gap between DistilBERT (0.9945) and SVM (0.9896) indicates that TF-IDF unigram and bigram features already capture most topic-specific words in this binary news task.
+
+\textbf{Recall.}
+Recall measures how many true examples of each class are found. On Yahoo Answers, DistilBERT has the highest macro recall (0.6822), meaning that it covers the 10 topic classes more evenly than the other models. SVM recall (0.5778) is higher than Naive Bayes recall (0.5500), which explains why SVM obtains a higher macro F1 even though Naive Bayes has higher precision. The lower recall of Naive Bayes may come from its word-independence assumption and its weaker ability to model interactions between topic words, especially when a class does not have distinctive vocabulary coverage. Word2Vec has the lowest macro recall (0.4433) because average pooling can dilute class-specific signals in short and noisy Q\&A documents. On AG News, recall values are close to precision values for all models because the dataset is balanced, the binary label boundary is clearer, and the number of errors is small.
+
+\textbf{F1-score.}
+F1-score combines precision and recall, so it is the main single metric for comparing the models. On Yahoo Answers, DistilBERT has the highest macro F1 (0.6750) because it has both the best precision and the best recall. SVM ranks second with a macro F1 of 0.5736, above Naive Bayes at 0.5383, because SVM gives a better precision-recall balance. Naive Bayes is weaker because its independence assumption cannot model word interactions across complex user questions. Word2Vec has the lowest macro F1 (0.4291) because average word vectors remove word order and contextual information. On AG News, the F1-score gap between DistilBERT (0.9944) and SVM (0.9895) is only about 0.0049. This shows that DistilBERT is more useful on the harder multi-class Q\&A dataset, while traditional TF-IDF models are already highly competitive on the cleaner binary news dataset.
+
+\textbf{Confusion matrix and error analysis.}
+Figure~\ref{fig:dataset1_confusion_matrices} compares the normalized confusion matrices of DistilBERT and the Word2Vec-based classifier on Yahoo Answers Topics. Dataset 1 is more informative for error analysis because it is a 10-class task and produces more mistakes than the binary AG News task. The DistilBERT matrix has a clearer diagonal pattern, which is consistent with its higher macro precision, recall, and F1-score. The Word2Vec matrix is more dispersed, suggesting that average pooled embeddings are less effective for fine-grained topic separation. The figure suggests several plausible sources of error in Yahoo Answers: informal wording, short or incomplete questions, and topic overlap between health and science, education and family, politics and society, and business and computers or internet topics. For AG News, a confusion matrix is less informative in the main text because all models make few errors. The remaining errors are likely to come from cross-topic articles, such as sports sponsorship, team ownership, sports company finance, or market reports involving sports companies.

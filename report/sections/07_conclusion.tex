@@ -2,4 +2,6 @@
 
 This project compares four document topic classification methods on two different scenarios. The results show that dataset difficulty matters. DistilBERT is more effective for the complex 10-class Yahoo Answers Q\&A dataset, where contextual meaning and informal text are important. For the binary AG News Sports vs Business dataset, traditional TF-IDF models are already very strong because the two topics have clearer lexical separation.
 
+The confusion matrix analysis further supports this finding. On Yahoo Answers, DistilBERT shows a clearer diagonal pattern than Word2Vec, while Word2Vec makes more dispersed errors across related topics. This suggests that many remaining errors come from overlapping Q\&A topics and limited context modelling, rather than from severe label imbalance.
+
 Word2Vec average pooling is simple and useful, but it loses word order and contextual detail. Future improvement could include stronger sentence-level embeddings, more careful hyperparameter tuning on the validation split, and additional error analysis by label.
