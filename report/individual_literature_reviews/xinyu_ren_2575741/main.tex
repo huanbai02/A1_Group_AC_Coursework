@@ -1,0 +1,23 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb}
+\usepackage{natbib}
+
+\begin{document}
+
+\section{Literature Review on Document Topic Classification}
+
+\subsection{Overview and Applications}
+Document topic classification is a core supervised natural language processing (NLP) task that automatically assigns predefined topic labels to unstructured documents according to their semantic content \cite{jurafsky2023speech}. It serves as a foundational technique for organizing, retrieving, and analyzing large-scale text corpora in both academic and industrial scenarios. Three representative real-world applications are widely adopted: news article categorization, which classifies news into politics, sports, entertainment, and technology for efficient content distribution; academic paper indexing, which organizes research works into disciplines such as computer science, medicine, and engineering to facilitate knowledge retrieval; and social media content tagging, which labels posts by topics like public health, environmental issues, or economic trends for content management and public opinion monitoring. These applications demonstrate the practical significance and wide applicability of document topic classification.
+
+\subsection{Key Challenges}
+Despite substantial progress, document topic classification still faces three fundamental challenges. First, \textit{semantic ambiguity} caused by polysemy and context-dependent meanings hinders accurate topic judgment. Second, \textit{high dimensionality and sparsity} of text features, due to large vocabulary sizes, increases computational complexity and degrades model generalization. Third, \textit{domain adaptation} difficulty arises when training and test data differ in vocabulary, style, and topic distribution, leading to significant performance drops in cross-domain scenarios.
+
+\subsection{Traditional and Deep Learning Approaches}
+Traditional methods mainly include Na\"ive Bayes and Support Vector Machines (SVM). Na\"ive Bayes is computationally efficient, robust to high-dimensional data, and easy to implement, but it assumes word independence and ignores contextual information, limiting its performance on complex texts. SVM, combined with TF-IDF features, delivers stable and accurate results on moderate datasets and exhibits strong generalization ability, yet it suffers from high computational costs when dealing with large-scale corpora.
+
+Deep learning methods, exemplified by Long Short-Term Memory (LSTM) and Gated Recurrent Units (GRU), effectively capture sequential and contextual dependencies. LSTM mitigates the vanishing gradient problem and models long-range semantic dependencies well, achieving high accuracy on complex documents, but it requires substantial computational resources and longer training time. GRU simplifies the LSTM architecture with fewer parameters, accelerating training while maintaining competitive performance; however, it may lose subtle contextual details compared with LSTM.
+
+\bibliographystyle{plainnat}
+\bibliography{ref}
+
+\end{document}
