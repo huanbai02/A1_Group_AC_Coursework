@@ -4,7 +4,7 @@
 
 This repository is for DTS406TC Natural Language Processing Coursework 1. The topic is document topic classification. The project will build a reproducible Python pipeline for collecting datasets, preprocessing text, training topic classifiers, evaluating predictions, and preparing report-ready results.
 
-Current stage: dataset preparation and algorithm integration. `dataset_1` has been prepared as a balanced Yahoo Answers Topics subset, and `dataset_2` is used for news topic classification. Model predictions and metrics are generated only when real model scripts are run.
+Current stage: dataset preparation and algorithm integration. `dataset_1` has been prepared as a balanced Yahoo Answers Topics subset, and `dataset_2` has been prepared as an AG News Sports vs Business binary news topic classification dataset. Model predictions and metrics are generated only when real model scripts are run.
 
 ## 2. Coursework Requirements Summary
 
@@ -33,19 +33,27 @@ Implemented:
 - raw dataset delivery validation script;
 - shared data I/O, seed, text processing, and metrics utilities;
 - basic preprocessing, split, and statistics scripts;
-- `dataset_1` raw and processed CSV files;
-- four model script interfaces with common command-line arguments;
+- `dataset_1` and `dataset_2` raw and processed CSV files;
+- Naive Bayes, SVM, Word2Vec-based classifier, and BERT script interfaces with common command-line arguments;
+- Naive Bayes implementation using TF-IDF + MultinomialNB;
+- Word2Vec implementation using self-trained Word2Vec average vectors + Logistic Regression;
 - prediction evaluation, metrics aggregation, and result plotting scripts;
 - lightweight requirements file.
+
+Current group ownership:
+
+- Junhao Feng: `dataset_1`, SVM, BERT-based classifier;
+- Xinyu Ren: `dataset_2`;
+- Jiacheng Gui: overall framework, Naive Bayes, Word2Vec-based classifier, integration and final review.
 
 Current datasets:
 
 | Dataset | Source / Name | Classification scenario | Raw size | Labels | Split |
 | --- | --- | --- | ---: | ---: | --- |
 | `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
-| `dataset_2` | News topic dataset | News topic classification | To be maintained separately | To be maintained separately | To be maintained separately |
+| `dataset_2` | AG News - Sports vs Business Classification | News topic classification | 60000 | 2 | 41966 / 8993 / 8993 |
 
-`dataset_1` and `dataset_2` represent different classification scenarios. No fake datasets, predictions, or metrics are generated. This Yahoo Answers preparation task did not generate new model prediction files or model metrics files.
+`dataset_1` and `dataset_2` represent different classification scenarios. No fake datasets, predictions, or metrics are generated. Current real metrics exist for all four required models on both datasets.
 
 ## 4. Expected Project Structure
 
@@ -172,17 +180,17 @@ For generic datasets, clean a raw dataset:
 
 ```bash
 python algorithms/preprocessing/preprocess_dataset.py \
-  --input_path data/raw/dataset_1/raw_data.csv \
-  --output_path data/processed/dataset_1/cleaned.csv
+  --input_path data/raw/dataset_2/raw_data.csv \
+  --output_path data/processed/dataset_2/cleaned.csv
 ```
 
 Create train/validation/test splits:
 
 ```bash
 python algorithms/preprocessing/split_dataset.py \
-  --input_path data/processed/dataset_1/cleaned.csv \
-  --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1 \
+  --input_path data/processed/dataset_2/cleaned.csv \
+  --dataset_name dataset_2 \
+  --output_dir data/processed/dataset_2 \
   --seed 42 \
   --train_ratio 0.7 \
   --val_ratio 0.15 \
@@ -193,9 +201,9 @@ Generate statistics for the full processed dataset. This is the recommended mode
 
 ```bash
 python algorithms/preprocessing/dataset_statistics.py \
-  --input_dir data/processed/dataset_1 \
-  --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1
+  --input_dir data/processed/dataset_2 \
+  --dataset_name dataset_2 \
+  --output_dir data/processed/dataset_2
 ```
 
 If train-only or another split-specific statistic is needed, use the single-file `--input_path` mode and save it to a clearly named output directory:
@@ -265,7 +273,31 @@ Required metrics columns:
 dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
 ```
 
-Current result status: this dataset preparation task did not create any new model prediction CSV files or model metrics CSV files.
+Current result status: real prediction and metrics CSV files have been generated for:
+
+- `dataset_1_naive_bayes`;
+- `dataset_1_svm`;
+- `dataset_1_word2vec`;
+- `dataset_1_bert`;
+- `dataset_2_naive_bayes`;
+- `dataset_2_svm`;
+- `dataset_2_word2vec`;
+- `dataset_2_bert`.
+
+The aggregate summary is saved at `data/results/tables/all_metrics_summary.csv`, and the macro-F1 comparison figure is saved at `data/results/figures/f1_macro_comparison.png`.
+
+Current real test-set metric summary:
+
+| Dataset | Model | precision_macro | recall_macro | f1_macro | accuracy |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `dataset_1` | BERT | 0.6764 | 0.6822 | 0.6750 | 0.6822 |
+| `dataset_1` | Naive Bayes | 0.5936 | 0.5500 | 0.5383 | 0.5500 |
+| `dataset_1` | SVM | 0.5740 | 0.5778 | 0.5736 | 0.5778 |
+| `dataset_1` | Word2Vec | 0.4336 | 0.4433 | 0.4291 | 0.4433 |
+| `dataset_2` | BERT | 0.9945 | 0.9944 | 0.9944 | 0.9944 |
+| `dataset_2` | Naive Bayes | 0.9845 | 0.9843 | 0.9843 | 0.9843 |
+| `dataset_2` | SVM | 0.9896 | 0.9895 | 0.9895 | 0.9895 |
+| `dataset_2` | Word2Vec | 0.9859 | 0.9859 | 0.9859 | 0.9859 |
 
 ## 11. Evaluation and Aggregation Workflow
 
@@ -276,7 +308,7 @@ python algorithms/evaluation/evaluate_predictions.py \
   --prediction_path data/results/predictions/dataset_1_naive_bayes_predictions.csv \
   --dataset_name dataset_1 \
   --model_name naive_bayes \
-  --feature_type tfidf \
+  --feature_type tfidf_unigram_bigram \
   --output_path data/results/metrics/dataset_1_naive_bayes_metrics.csv \
   --seed 42
 ```
@@ -303,12 +335,12 @@ The plotting script only generates figures from an existing real summary CSV.
 
 The following model scripts are fully implemented:
 
-- SVM: TF-IDF + LinearSVC classification implemented (Group Member A);
-- BERT-based classifier: DistilBERT sequence classification fine-tuning implemented (Group Member B).
+- Naive Bayes: TF-IDF unigram/bigram features + MultinomialNB implemented by Jiacheng Gui;
+- SVM: TF-IDF + LinearSVC classification implemented by Junhao Feng;
+- Word2Vec-based classifier: self-trained Word2Vec + average document vectors + Logistic Regression implemented by Jiacheng Gui;
+- BERT-based classifier: DistilBERT sequence classification fine-tuning implemented by Junhao Feng.
 
-The remaining models are templates only:
-- Naive Bayes: interface only, to be implemented by group member A;
-- Word2Vec-based classifier: interface only, to be implemented by group member B.
+Naive Bayes uses `feature_type=tfidf_unigram_bigram`. Word2Vec uses `feature_type=word2vec_avg_logreg`, `vector_size=100`, `window=5`, `min_count=2`, `workers=1`, `sg=1`, and Logistic Regression with `max_iter=1000`.
 
 ## 13. How Group Members Should Add Algorithm Implementations Later
 
@@ -334,6 +366,7 @@ scikit-learn
 matplotlib
 torch
 transformers
+gensim
 ```
 
 Install them with:

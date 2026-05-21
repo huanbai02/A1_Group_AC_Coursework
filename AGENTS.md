@@ -18,6 +18,29 @@ All Agents working on this repository must follow this document.
 
 ---
 
+## 1.1 Current Ownership and Dataset Status
+
+Current group ownership for the data2 branch:
+
+- Junhao Feng: `dataset_1` collection, SVM implementation, and BERT-based classifier implementation.
+- Xinyu Ren: `dataset_2` collection.
+- Jiacheng Gui: overall framework implementation, Naive Bayes implementation, Word2Vec-based classifier implementation, integration, and final review.
+
+Current standardized datasets:
+
+| Dataset | Source / Name | Classification Scenario | Raw Rows | Labels | Processed Split |
+|---|---|---|---:|---:|---|
+| `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
+| `dataset_2` | AG News - Sports vs Business Classification | News topic classification | 60000 | 2 | 41966 / 8993 / 8993 |
+
+Current Jiacheng Gui model status:
+
+- Naive Bayes is implemented as TF-IDF unigram/bigram features plus `MultinomialNB`, with `feature_type=tfidf_unigram_bigram`.
+- Word2Vec-based classifier is implemented as self-trained Word2Vec on the train split, average document vectors, and Logistic Regression, with `feature_type=word2vec_avg_logreg`.
+- `gensim` is required for the Word2Vec implementation and must remain documented in `requirements.txt`, `README.md`, and `README_cn.md`.
+
+---
+
 ## 2. Core Coursework Requirements
 
 The implementation must support:

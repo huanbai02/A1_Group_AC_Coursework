@@ -4,7 +4,7 @@
 
 本仓库用于 DTS406TC Natural Language Processing Coursework 1。主题是文档主题分类（Document Topic Classification）。项目目标是搭建一个可复现的 Python 流水线，用于数据集收集、文本预处理、主题分类模型训练、预测评估以及生成报告可用的结果材料。
 
-当前阶段：数据准备与算法集成。`dataset_1` 已整理为均衡的 Yahoo Answers Topics 子集，`dataset_2` 用于 news topic classification。只有在真实模型脚本运行后，才会生成模型 prediction 和 metrics 文件。
+当前阶段：数据准备与算法集成。`dataset_1` 已整理为均衡的 Yahoo Answers Topics 子集，`dataset_2` 已整理为 AG News Sports vs Business 二分类 news topic classification 数据集。只有在真实模型脚本运行后，才会生成模型 prediction 和 metrics 文件。
 
 ## 2. 作业要求概述
 
@@ -33,19 +33,27 @@
 - 原始数据集交付格式检查脚本；
 - 通用数据读取、随机种子、文本处理和指标工具；
 - 基础预处理、数据划分和统计脚本；
-- `dataset_1` 的 raw 和 processed CSV 文件；
-- 四个模型脚本的统一接口模板；
+- `dataset_1` 和 `dataset_2` 的 raw 和 processed CSV 文件；
+- Naive Bayes、SVM、Word2Vec-based classifier 和 BERT 脚本的统一命令行接口；
+- 基于 TF-IDF + MultinomialNB 的 Naive Bayes 实现；
+- 基于自训练 Word2Vec 平均文档向量 + Logistic Regression 的 Word2Vec 实现；
 - 预测评估、指标汇总和结果绘图脚本；
 - 轻量级 requirements 文件。
+
+当前小组分工：
+
+- Junhao Feng：`dataset_1`、SVM、BERT-based classifier；
+- Xinyu Ren：`dataset_2`；
+- Jiacheng Gui：整体框架、Naive Bayes、Word2Vec-based classifier、集成与最终 review。
 
 当前数据集：
 
 | Dataset | Source / Name | Classification scenario | Raw size | Labels | Split |
 | --- | --- | --- | ---: | ---: | --- |
 | `dataset_1` | Yahoo Answers Topics | Community Q&A topic classification | 6000 | 10 | 4200 / 900 / 900 |
-| `dataset_2` | News topic dataset | News topic classification | 后续单独维护 | 后续单独维护 | 后续单独维护 |
+| `dataset_2` | AG News - Sports vs Business Classification | News topic classification | 60000 | 2 | 41966 / 8993 / 8993 |
 
-`dataset_1` 和 `dataset_2` 代表不同分类场景。项目不会生成虚假数据集、虚假 prediction 或虚假 metrics。本次 Yahoo Answers 数据整理任务没有生成新的模型 prediction 文件或模型 metrics 文件。
+`dataset_1` 和 `dataset_2` 代表不同分类场景。项目不会生成虚假数据集、虚假 prediction 或虚假 metrics。当前已为两个数据集上的四个必需模型生成真实 metrics。
 
 ## 4. 推荐目录结构
 
@@ -171,17 +179,17 @@ id,text,label
 
 ```bash
 python algorithms/preprocessing/preprocess_dataset.py \
-  --input_path data/raw/dataset_1/raw_data.csv \
-  --output_path data/processed/dataset_1/cleaned.csv
+  --input_path data/raw/dataset_2/raw_data.csv \
+  --output_path data/processed/dataset_2/cleaned.csv
 ```
 
 创建 train/validation/test 划分：
 
 ```bash
 python algorithms/preprocessing/split_dataset.py \
-  --input_path data/processed/dataset_1/cleaned.csv \
-  --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1 \
+  --input_path data/processed/dataset_2/cleaned.csv \
+  --dataset_name dataset_2 \
+  --output_dir data/processed/dataset_2 \
   --seed 42 \
   --train_ratio 0.7 \
   --val_ratio 0.15 \
@@ -192,9 +200,9 @@ python algorithms/preprocessing/split_dataset.py \
 
 ```bash
 python algorithms/preprocessing/dataset_statistics.py \
-  --input_dir data/processed/dataset_1 \
-  --dataset_name dataset_1 \
-  --output_dir data/processed/dataset_1
+  --input_dir data/processed/dataset_2 \
+  --dataset_name dataset_2 \
+  --output_dir data/processed/dataset_2
 ```
 
 如果需要 train-only 或其他单个 split 的统计信息，使用单文件 `--input_path` 模式，并保存到名称明确的输出目录：
@@ -264,7 +272,31 @@ data/results/metrics/{dataset_name}_{model_name}_metrics.csv
 dataset,model,feature_type,precision_macro,recall_macro,f1_macro,precision_weighted,recall_weighted,f1_weighted,accuracy,train_time_sec,inference_time_sec,random_seed
 ```
 
-当前结果状态：本次数据整理任务没有创建任何新的模型 prediction CSV 文件或模型 metrics CSV 文件。
+当前结果状态：已为以下真实实验生成 prediction 和 metrics CSV 文件：
+
+- `dataset_1_naive_bayes`；
+- `dataset_1_svm`；
+- `dataset_1_word2vec`；
+- `dataset_1_bert`；
+- `dataset_2_naive_bayes`；
+- `dataset_2_svm`；
+- `dataset_2_word2vec`；
+- `dataset_2_bert`。
+
+汇总表保存于 `data/results/tables/all_metrics_summary.csv`，macro-F1 对比图保存于 `data/results/figures/f1_macro_comparison.png`。
+
+当前真实 test-set 指标汇总：
+
+| Dataset | Model | precision_macro | recall_macro | f1_macro | accuracy |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `dataset_1` | BERT | 0.6764 | 0.6822 | 0.6750 | 0.6822 |
+| `dataset_1` | Naive Bayes | 0.5936 | 0.5500 | 0.5383 | 0.5500 |
+| `dataset_1` | SVM | 0.5740 | 0.5778 | 0.5736 | 0.5778 |
+| `dataset_1` | Word2Vec | 0.4336 | 0.4433 | 0.4291 | 0.4433 |
+| `dataset_2` | BERT | 0.9945 | 0.9944 | 0.9944 | 0.9944 |
+| `dataset_2` | Naive Bayes | 0.9845 | 0.9843 | 0.9843 | 0.9843 |
+| `dataset_2` | SVM | 0.9896 | 0.9895 | 0.9895 | 0.9895 |
+| `dataset_2` | Word2Vec | 0.9859 | 0.9859 | 0.9859 | 0.9859 |
 
 ## 11. 评估和汇总流程
 
@@ -275,7 +307,7 @@ python algorithms/evaluation/evaluate_predictions.py \
   --prediction_path data/results/predictions/dataset_1_naive_bayes_predictions.csv \
   --dataset_name dataset_1 \
   --model_name naive_bayes \
-  --feature_type tfidf \
+  --feature_type tfidf_unigram_bigram \
   --output_path data/results/metrics/dataset_1_naive_bayes_metrics.csv \
   --seed 42
 ```
@@ -302,12 +334,12 @@ python algorithms/evaluation/plot_results.py \
 
 以下模型脚本已完整实现：
 
-- SVM：基于 TF-IDF + LinearSVC 的分类模型已实现（由组员 A 实现）；
-- BERT-based classifier：基于 DistilBERT 序列分类微调的模型已实现（由组员 B 实现）。
+- Naive Bayes：基于 TF-IDF unigram/bigram features + MultinomialNB，由 Jiacheng Gui 实现；
+- SVM：基于 TF-IDF + LinearSVC 的分类模型已实现（由 Junhao Feng 实现）；
+- Word2Vec-based classifier：基于自训练 Word2Vec + 平均文档向量 + Logistic Regression，由 Jiacheng Gui 实现；
+- BERT-based classifier：基于 DistilBERT 序列分类微调的模型已实现（由 Junhao Feng 实现）。
 
-其余模型脚本仍为模板：
-- Naive Bayes：interface only，由组员 A 后续实现；
-- Word2Vec-based classifier：interface only，由组员 B 后续实现。
+Naive Bayes 使用 `feature_type=tfidf_unigram_bigram`。Word2Vec 使用 `feature_type=word2vec_avg_logreg`，设置为 `vector_size=100`、`window=5`、`min_count=2`、`workers=1`、`sg=1`，分类器为 `max_iter=1000` 的 Logistic Regression。
 
 ## 13. 后续组员如何接入算法实现
 
@@ -333,6 +365,7 @@ scikit-learn
 matplotlib
 torch
 transformers
+gensim
 ```
 
 安装命令：
@@ -340,5 +373,3 @@ transformers
 ```bash
 pip install -r requirements.txt
 ```
-
-
